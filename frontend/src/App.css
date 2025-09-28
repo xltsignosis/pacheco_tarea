@@ -1,0 +1,96 @@
+/* Fondo degradado moderno */
+/* Modificación del Body */
+body {
+    /* ... otros estilos que ya tienes ... */
+    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la vista */
+    display: flex; /* Activa Flexbox */
+    justify-content: center; /* Centra el contenido horizontalmente (si no usas margin: auto) */
+    align-items: center; /* Centra el contenido verticalmente */
+}
+
+/* Modificación de app-container (para funcionar con Flexbox del body) */
+.app-container {
+    max-width: 900px; 
+    /* Quitamos el margin: auto; ya que Flexbox se encarga del centrado */
+    margin: 0; 
+    padding: 20px;
+    /* Necesitas que no se encoja para respetar el max-width */
+    flex-shrink: 0; 
+}
+
+/* Título principal */
+.title {
+  text-align: center; /* ¡Centra el texto y el ícono dentro del h1! */
+  font-size: 2.5rem;
+  color: white;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+  margin-bottom: 30px; 
+}
+/* Tarjetas */
+.card {
+  background:black;
+  border-radius: 16px;
+  padding: 25px;
+  margin-bottom: 25px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease-in-out;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+}
+
+/* Formularios */
+form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+/* Inputs */
+input {
+  flex: 1;
+  padding: 10px;
+  border: 2px solid #4facfe;
+  border-radius: 8px;
+  outline: none;
+  font-size: 1rem;
+  transition: border 0.2s;
+}
+
+input:focus {
+  border-color: #00f2fe;
+}
+
+/* Botones */
+button {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 18px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+  transform: scale(1.05);
+}
+
+/* Listas */
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background: #f9f9f9;
+  margin: 6px 0;
+  padding: 10px;
+  border-radius: 8px;
+  border-left: 6px solid #4facfe;
+}
+
