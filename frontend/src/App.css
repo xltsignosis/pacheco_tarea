@@ -1,4 +1,13 @@
 body {
+/* mejoras-microservicios */
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modificación de app-container */
+
     min-height: 100vh; 
     display: flex; 
     justify-content: center; 
@@ -14,15 +23,18 @@ body {
 
 /* Título principal */
 .title {
-  text-align: center; 
+/*mejoras-microservicios */
+  text-align: center;
+  text-align: center;
   font-size: 2.5rem;
   color: white;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
   margin-bottom: 30px; 
 }
+
 /* Tarjetas */
 .card {
-  background:black;
+  background: rgb(255, 255, 255);
   border-radius: 16px;
   padding: 25px;
   margin-bottom: 25px;
@@ -43,7 +55,7 @@ form {
 }
 
 /* Inputs */
-input {
+input, select {
   flex: 1;
   padding: 10px;
   border: 2px solid #4facfe;
@@ -53,7 +65,7 @@ input {
   transition: border 0.2s;
 }
 
-input:focus {
+input:focus, select:focus {
   border-color: #00f2fe;
 }
 
@@ -88,3 +100,72 @@ li {
   border-left: 6px solid #4facfe;
 }
 
+/* Estilos específicos para PaymentList (dentro de la tarjeta) */
+.payment-list {
+  list-style: none;
+  padding: 0;
+}
+
+.payment-item {
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  border-left: 6px solid #4facfe; /* Mantiene consistencia con otros li */
+}
+
+.payment-item-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.payment-info {
+  flex: 1;
+}
+
+.payment-controls {
+  text-align: right;
+}
+
+.payment-status {
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.payment-status-success {
+  color: white;
+  background-color: green;
+}
+
+.payment-status-failed {
+  color: white;
+  background-color: red;
+}
+
+.payment-status-processing {
+  color: white;
+  background-color: orange;
+}
+
+.payment-status-pending {
+  color: white;
+  background-color: blue;
+}
+
+.payment-status-default {
+  color: white;
+  background-color: gray;
+}
+
+.payment-status-select {
+  margin-top: 5px;
+  padding: 4px 8px;
+  border: 1px solid #4facfe;
+  border-radius: 4px;
+  background-color: white;
+}
