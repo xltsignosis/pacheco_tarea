@@ -1,26 +1,20 @@
-/* Fondo degradado moderno */
-/* Modificación del Body */
 body {
-    /* ... otros estilos que ya tienes ... */
-    min-height: 100vh; /* Asegura que el body ocupe toda la altura de la vista */
-    display: flex; /* Activa Flexbox */
-    justify-content: center; /* Centra el contenido horizontalmente (si no usas margin: auto) */
-    align-items: center; /* Centra el contenido verticalmente */
+    min-height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
 }
 
-/* Modificación de app-container (para funcionar con Flexbox del body) */
 .app-container {
     max-width: 900px; 
-    /* Quitamos el margin: auto; ya que Flexbox se encarga del centrado */
     margin: 0; 
     padding: 20px;
-    /* Necesitas que no se encoja para respetar el max-width */
     flex-shrink: 0; 
 }
 
 /* Título principal */
 .title {
-  text-align: center; /* ¡Centra el texto y el ícono dentro del h1! */
+  text-align: center; 
   font-size: 2.5rem;
   color: white;
   text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
