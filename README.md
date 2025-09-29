@@ -10,10 +10,10 @@ Sistema web que permite la gestión de usuarios universitarios y procesamiento d
 **Arquitectura:** Microservicios con API Gateway 
 
 **Tecnologías principales:**
-- **Backend:** Node.js con Express.js [3](#0-2) 
-- **Frontend:** React.js [4](#0-3) 
-- **Base de datos:** PostgreSQL [5](#0-4) 
-- **Proxy:** http-proxy-middleware [6](#0-5) 
+- **Backend:** Node.js con Express.js 
+- **Frontend:** React.js  
+- **Base de datos:** PostgreSQL 
+- **Proxy:** http-proxy-middleware  
 
 ## Requisitos Previos
 - Node.js v22+
@@ -28,14 +28,14 @@ npm install
 
 ## Configuración del Entorno
 **Base de datos PostgreSQL:**
-- Crear base de datos `universidad_db` [7](#0-6) 
+- Crear base de datos `universidad_db` 
 - Configurar credenciales en cada servicio:
-  - Usuario: `tu_usuario_postgres` [8](#0-7) 
-  - Contraseña: `tu_contraseña_postgres` [9](#0-8) 
+  - Usuario: `tu_usuario_postgres`
+  - Contraseña: `tu_contraseña_postgres` 
 
 **Tablas requeridas:**
-- `users` (name, email, password) [10](#0-9) 
-- `payments` (student_id, amount, payment_method, description, status, transaction_date) [11](#0-10) 
+- `users` (name, email, password) 
+- `payments` (student_id, amount, payment_method, description, status, transaction_date) 
 
 ## Instrucciones para Ejecutar
 ```bash
@@ -57,22 +57,22 @@ cd frontend && npm start
 ### A través del API Gateway (http://localhost:3000)
 
 **Usuarios:**
-- **POST** `/api/usuarios` [12](#0-11) 
+- **POST** `/api/usuarios` [12]
   - Crea un nuevo usuario
   - Body: `{"name": "Juan", "email": "juan@email.com", "password": "123456"}`
 
 **Pagos:**
-- **POST** `/api/pagos` [13](#0-12) 
+- **POST** `/api/pagos` [13]
   - Registra un nuevo pago
-  - Body: `{"studentId": 1, "amount": 500, "metodoPago": "tarjeta", "descripcion": "Matrícula", "estado": "completado", "fecha": "2024-01-15"}` [14](#0-13) 
+  - Body: `{"studentId": 1, "amount": 500, "metodoPago": "tarjeta", "descripcion": "Matrícula", "estado": "completado", "fecha": "2024-01-15"}` [14]
 
 ### Endpoints directos de servicios
 
 **Servicio de Usuarios (http://localhost:3001):**
-- **POST** `/users` - Crear usuario [15](#0-14) 
+- **POST** `/users` - Crear usuario 
 
 **Servicio de Pagos (http://localhost:3002):**
-- **POST** `/payments` - Registrar pago [16](#0-15) 
+- **POST** `/payments` - Registrar pago 
 
 ## Notes
 El sistema utiliza un patrón de API Gateway que redirige las peticiones a los microservicios correspondientes [17](#0-16) . El frontend React consume estos servicios a través del gateway [18](#0-17) . Es necesario configurar las credenciales de PostgreSQL en cada servicio antes de ejecutar el sistema.
@@ -177,3 +177,5 @@ app.post('/payments', async (req, res) => {
 ```javascript
     await fetch("/api/usuarios", { // Hace una petición HTTP POST al servidor para crear un nuevo usuario.
 ```
+
+**From** https://deepwiki.com/xltsignosis/pacheco_tarea
