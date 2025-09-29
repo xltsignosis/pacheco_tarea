@@ -7,7 +7,7 @@
 Sistema web que permite la gestión de usuarios universitarios y procesamiento de pagos mediante una arquitectura de microservicios <cite/>.
 
 ## Arquitectura Implementada
-**Arquitectura:** Microservicios con API Gateway [2](#0-1) 
+**Arquitectura:** Microservicios con API Gateway 
 
 **Tecnologías principales:**
 - **Backend:** Node.js con Express.js [3](#0-2) 
