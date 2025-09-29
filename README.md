@@ -16,7 +16,7 @@ Sistema web que permite la gestión de usuarios universitarios y procesamiento d
 - **Proxy:** http-proxy-middleware [6](#0-5) 
 
 ## Requisitos Previos
-- Node.js v14+
+- Node.js v22+
 - PostgreSQL
 - npm o yarn
 
