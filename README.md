@@ -1,4 +1,3 @@
-Basándome en el código del repositorio `xltsignosis/pacheco_tarea`, puedo crear un README técnico para este sistema universitario con arquitectura de microservicios <cite/>. El proyecto implementa un sistema de gestión de usuarios y pagos utilizando un API Gateway y servicios independientes [1](#0-0) .
 
 # README Técnico - Sistema Universitario
 
