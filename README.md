@@ -13,17 +13,22 @@ Sistema web que permite la gestión de usuarios universitarios y procesamiento d
 - **Backend:** Node.js con Express.js 
 - **Frontend:** React.js  
 - **Base de datos:** PostgreSQL 
-- **Proxy:** http-proxy-middleware  
+- **Proxy:** http-proxy-middleware
+- **Manejo de reportes con python** 
 
 ## Requisitos Previos
 - Node.js v22+
 - PostgreSQL
 - npm o yarn
+- Python3
 
 ## Instalación de Dependencias
 ```bash
 # En cada directorio (api-gateway, servicios, servicios/servicios-pagos, frontend)
 npm install
+
+#En la carpeta de reportes_py
+pip install psycopg2-binary, pip install reportlab, pip install fastapi uvicorn, pip install xlsxwriter, pip install pandas
 ```
 
 ## Configuración del Entorno
@@ -50,16 +55,15 @@ cd api-gateway && npm start
 
 # 4. Frontend
 cd frontend && npm start
+
+# 5. reportes_py (puerto 8001)
+cd reportes_py && uvicorn main:app --reload --port 8001
 ```
 
 ## Endpoints a Probar
-
-### A través del API Gateway (http://localhost:3000)
-
-**Usuarios:**
-- **POST** `/api/usuarios` [12]
-  - Crea un nuevo usuario
-  - Body: `{"name": "Juan", "email": "juan@email.com", "password": "123456"}`
+**Reportes**
+**POST** `/reportea/por-mes`
+  -Genera el reporte de pagos y cuanto va registrado
 
 **Pagos:**
 - **POST** `/api/pagos` [13]
