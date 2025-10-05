@@ -2,34 +2,54 @@ import React, { useEffect, useState } from "react";
 
 export default function PaymentList() {
   const [payments, setPayments] = useState([]);
+  const [reportesPorMes, setReportesPorMes] = useState([]);
 
   useEffect(() => {
-    fetch("/api/pagos") //hace una petición HTTP GET para obtener todos los pagos del servidor.
-      .then((res) => res.json())
-      .then((data) => setPayments(data))//guarda losspagos en el esatdo local.
-      .catch((err) => console.error(err));//muestra el error en consola.
+    // Obtener pagos individuales
+    fetch("http://localhost:3002/payments")
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`Error del servidor: ${errorText}`);
+        }
+        const data = await res.json();
+        setPayments(data);
+      })
+      .catch((err) => console.error("Error al obtener pagos:", err.message));
+
+    // Obtener reportes agrupados por mes desde el microservicio Python
+    fetch("http://localhost:3000/api/reportes/por-mes")
+      .then(async (res) => {
+        if (!res.ok) {
+          const errorText = await res.text();
+          throw new Error(`Error al obtener reportes: ${errorText}`);
+        }
+        const data = await res.json();
+        setReportesPorMes(data);
+      })
+      .catch((err) => console.error("Error al obtener reportes por mes:", err.message));
   }, []);
 
-  const updatePaymentStatus = async (paymentId, newStatus) => {//actualiza el estado de un pago.
+  const updatePaymentStatus = async (paymentId, newStatus) => {
     try {
-      await fetch(`/api/pagos/${paymentId}`, { //envía una petición PUT al servidor para actualizar el estado del pago.
-        method: "PUT", //se usa para actualizar recursos existentes
+      await fetch(`http://localhost:3002/payments/${paymentId}`, {
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ estado: newStatus }),//envia el nuevo estado.
+        body: JSON.stringify({ estado: newStatus }),
       });
-      
-      setPayments(prevPayments => // actualiza el estado local sin recargar desde el servidor.
-        prevPayments.map(payment => //recorre todos los pagos y solo actualiza con el que coincidde.
-          payment.id === paymentId //si el idno coincide con el que queremos actualizar.
+
+      setPayments(prevPayments =>
+        prevPayments.map(payment =>
+          payment.id === paymentId
             ? { ...payment, estado: newStatus }
-            : payment //si no coincide, deja el pago sin cambios.
+            : payment
         )
       );
     } catch (err) {
       console.error("Error updating payment status:", err);
     }
   };
-//devuleve un color segun el estado del pago.
+
   const getStatusColor = (estado) => {
     switch (estado) {
       case "exitoso": return "payment-status-success";
@@ -39,18 +59,18 @@ export default function PaymentList() {
       default: return "payment-status-default";
     }
   };
-//formatea el monto como moneda mexicana.
+
   const formatAmount = (amount) => {
     return new Intl.NumberFormat('es-MX', {
-      style: 'currency', //formato de moneda.
-      currency: 'MXN' //$ mexicanos.
+      style: 'currency',
+      currency: 'MXN'
     }).format(amount);
   };
-//aqui fromatea la fecha 
+
   const formatDate = (dateString) => {
     return new Date(dateString).toLocaleDateString('es-MX', {
-      year: 'numeric', //el año completo.
-      month: '2-digit', //mes don 2 digitos, etc.
+      year: 'numeric',
+      month: '2-digit',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit'
@@ -58,14 +78,14 @@ export default function PaymentList() {
   };
 
   return (
-    //muestra cuantos pagos hay registrados.
-    <div className="card"> 
+    <div className="card">
       <h3>Lista de Pagos ({payments.length})</h3>
-      {payments.length === 0 ? ( //revisa si hay pagos para mostrar.
+
+      {payments.length === 0 ? (
         <p>No hay pagos registrados</p>
       ) : (
         <ul className="payment-list">
-          {payments.map((payment) => ( //recorre cada pago y crea un elemento visual para cada uno.
+          {payments.map((payment) => (
             <li key={payment.id} className="payment-item">
               <div className="payment-item-content">
                 <div className="payment-info">
@@ -82,9 +102,9 @@ export default function PaymentList() {
                     {payment.estado}
                   </span>
                   <br />
-                  <select 
-                    value={payment.estado} //valor actual del estado.
-                    onChange={(e) => updatePaymentStatus(payment.id, e.target.value)}//funcion que se ejecuta al cambiar.
+                  <select
+                    value={payment.estado}
+                    onChange={(e) => updatePaymentStatus(payment.id, e.target.value)}
                     className="payment-status-select"
                   >
                     <option value="pendiente">Pendiente</option>
@@ -98,6 +118,33 @@ export default function PaymentList() {
           ))}
         </ul>
       )}
+
+      {/* Sección de reportes por mes */}
+      <div className="reportes-card">
+        <h4>Pagos agrupados por mes</h4>
+        {reportesPorMes.length === 0 ? (
+          <p>No hay datos de reportes por mes</p>
+        ) : (
+          <table className="reportes-table">
+            <thead>
+              <tr>
+                <th>Mes</th>
+                <th>Total de Pagos</th>
+                <th>Total Monto</th>
+              </tr>
+            </thead>
+            <tbody>
+              {reportesPorMes.map((reporte, index) => (
+                <tr key={index}>
+                  <td>{reporte.mes}</td>
+                  <td>{reporte.total_pagos}</td>
+                  <td>{formatAmount(reporte.total_monto)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </div>
     </div>
   );
 }

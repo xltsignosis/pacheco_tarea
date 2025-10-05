@@ -21,6 +21,22 @@ export default function App() {
   <h2>💳Servicio de pagos</h2>
   <PaymentForm onCreated={() => window.location.reload()} />
   <PaymentList />
+
+  {/* Botón para descargar el PDF del reporte mensual */}
+  <button
+    onClick={() => window.open("http://localhost:8001/reportes/por-mes/pdf", "_blank")}
+    style={{
+      marginTop: "20px",
+      padding: "10px 20px",
+      backgroundColor: "#28a745",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      cursor: "pointer"
+    }}
+  >
+    📄 Descargar reporte mensual en PDF
+  </button>
 </section>
     </div>
   );

@@ -1,2 +1,20 @@
-/node_modules
+# Node.js
+**/node_modules/
+**/package-lock.json
+
+# Python
+**/venv/
+**/__pycache__/
+**/*.pyc
+
+# Entornos y configuración
 .env
+.DS_Store
+
+# VSCode
+.vscode/
+
+# Logs y temporales
+*.log
+*.sqlite3
+*.db
