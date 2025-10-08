@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, ci-cd-setup]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Ejecutar Linter
+        run: npm run lint
+
+      - name: Ejecutar Pruebas
+        run: npm test
+
+      - name: Build del proyecto
+        run: npm run build
+
+      - name: Generar documentación
+        run: npm run docs
+
+      - name: Subir reportes de cobertura
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
