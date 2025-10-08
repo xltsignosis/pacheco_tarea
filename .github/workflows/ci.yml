@@ -22,15 +22,15 @@ jobs:
 
       # Instalar dependencias
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      # Ejecutar ESLint
+      # Ejecutar ESLint (usando Babel parser para ES Modules)
       - name: Run ESLint
         run: npm run lint
 
       # Verificar Prettier
       - name: Run Prettier check
-        run: npx prettier --check src/**/*.js
+        run: npx prettier --check "src/**/*.js"
 
       # Ejecutar tests con Jest
       - name: Run tests

@@ -1,17 +1,10 @@
 {
-  "env": {
-    "browser": true,
-    "es2021": true,
-    "node": true,
-    "jest": true
-  },
+  "env": { "browser": true, "es2021": true, "node": true, "jest": true },
   "extends": ["eslint:recommended", "prettier"],
   "parser": "@babel/eslint-parser",
   "parserOptions": {
     "requireConfigFile": false,
-    "babelOptions": {
-      "presets": ["@babel/preset-env"]
-    },
+    "babelOptions": { "presets": ["@babel/preset-env"] },
     "sourceType": "module",
     "ecmaVersion": "latest"
   },
