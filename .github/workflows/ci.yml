@@ -1,41 +1,48 @@
-name: CI/CD Pipeline
+name: CI/CD
 
 on:
   push:
-    branches: [main, ci-cd-setup]
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout código
-        uses: actions/checkout@v4
+      # Clonar el repositorio
+      - uses: actions/checkout@v3
 
-      - name: Configurar Node.js
-        uses: actions/setup-node@v4
+      # Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '20'
+          node-version: 18
 
-      - name: Instalar dependencias
-        run: npm ci
+      # Instalar dependencias
+      - name: Install dependencies
+        run: npm install
 
-      - name: Ejecutar Linter
+      # Ejecutar ESLint
+      - name: Run ESLint
         run: npm run lint
 
-      - name: Ejecutar Pruebas
+      # Verificar Prettier
+      - name: Run Prettier check
+        run: npx prettier --check src/**/*.js
+
+      # Ejecutar tests con Jest
+      - name: Run tests
         run: npm test
 
-      - name: Build del proyecto
-        run: npm run build
-
-      - name: Generar documentación
+      # Generar documentación JSDoc
+      - name: Generate JSDoc
         run: npm run docs
 
-      - name: Subir reportes de cobertura
-        uses: actions/upload-artifact@v4
+      # Subir documentación como artifact
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v3
         with:
-          name: coverage-report
-          path: coverage/
+          name: docs
+          path: docs
