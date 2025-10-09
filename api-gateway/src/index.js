@@ -28,7 +28,7 @@ app.use('/api/pagos', createProxyMiddleware({
 }));
 
 
-app.use('api/reportes', createProxyMiddleware({
+app.use('/api/reportes', createProxyMiddleware({
     target: 'http://localhost:8001',
     changeOrigin: true,
 }))
