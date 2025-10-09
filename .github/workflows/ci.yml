@@ -1,0 +1,48 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Clonar el repositorio
+      - uses: actions/checkout@v3
+
+      # Configurar Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      # Instalar dependencias
+      - name: Install dependencies
+        run: npm ci
+
+      # Ejecutar ESLint (usando Babel parser para ES Modules)
+      - name: Run ESLint
+        run: npm run lint
+
+      # Verificar Prettier
+      - name: Run Prettier check
+        run: npx prettier --check "src/**/*.js"
+
+      # Ejecutar tests con Jest
+      - name: Run tests
+        run: npm test
+
+      # Generar documentación JSDoc
+      - name: Generate JSDoc
+        run: npm run docs
+
+      # Subir documentación como artifact
+      - name: Upload docs artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs
+          path: docs
