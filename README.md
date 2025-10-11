@@ -183,3 +183,4 @@ app.post('/payments', async (req, res) => {
 ```
 
 **From** https://deepwiki.com/xltsignosis/pacheco_tarea
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/xltsignosis/pacheco_tarea)
