@@ -1,0 +1,184 @@
+# Pruebas Unitarias - Módulo de Reportes
+
+Este documento describe las pruebas unitarias implementadas para el módulo de reportes en Python (`reportes_py`).
+
+## Estructura de Pruebas
+
+Las pruebas se encuentran en el directorio `reportes_py/tests/` y cubren los siguientes módulos:
+
+- `test_pdf_builder.py` - Pruebas para el generador de PDFs
+- `test_report_strategy.py` - Pruebas para las estrategias de reportes
+
+## Pruebas para PDFBuilder (`test_pdf_builder.py`)
+
+### Descripción
+Pruebas para la clase `PDFBuilder` que se encarga de generar documentos PDF con reportes.
+
+### Casos de Prueba
+
+#### 1. `test_init`
+- **Propósito**: Verificar la inicialización correcta del PDFBuilder
+- **Verificaciones**:
+  - El objeto PDF se crea correctamente
+  - La posición Y inicial es 750
+  - El buffer se inicializa correctamente
+
+#### 2. `test_add_header`
+- **Propósito**: Probar la adición de encabezados
+- **Verificaciones**:
+  - La posición Y se reduce en 30 píxeles después de agregar un encabezado
+
+#### 3. `test_add_table_with_data`
+- **Propósito**: Probar la adición de tablas con datos válidos
+- **Datos de prueba**: DataFrame con columnas 'mes', 'total_pagos', 'total_monto'
+- **Verificaciones**:
+  - La posición Y se reduce correctamente según el número de filas (2 filas × 20 píxeles)
+
+#### 4. `test_add_table_empty_dataframe`
+- **Propósito**: Probar el manejo de DataFrames vacíos
+- **Verificaciones**:
+  - Se muestra mensaje de "no hay datos"
+  - La posición Y se reduce solo en 20 píxeles
+
+#### 5. `test_add_table_with_invalid_data`
+- **Propósito**: Probar el manejo de datos con columnas incorrectas
+- **Verificaciones**:
+  - El sistema maneja errores graciosamente
+  - La posición Y se reduce en 20 píxeles
+
+#### 6. `test_add_footer`
+- **Propósito**: Probar la adición de pie de página
+- **Verificaciones**:
+  - La posición Y no cambia al agregar el pie de página
+
+#### 7. `test_build`
+- **Propósito**: Probar la construcción completa del PDF
+- **Verificaciones**:
+  - Se retorna un buffer válido
+  - El buffer contiene datos (tamaño > 0)
+
+#### 8. `test_page_break`
+- **Propósito**: Probar el salto de página automático
+- **Condición**: Cuando Y < 50
+- **Verificaciones**:
+  - La posición Y se resetea a 750 después del salto de página
+
+## Pruebas para ReportStrategy (`test_report_strategy.py`)
+
+### Descripción
+Pruebas para las clases `ReportStrategy` (abstracta) y `MonthlyReportStrategy` (implementación concreta).
+
+### Casos de Prueba
+
+#### Clase TestReportStrategy
+
+##### 1. `test_report_strategy_is_abstract`
+- **Propósito**: Verificar que ReportStrategy es una clase abstracta
+- **Verificaciones**:
+  - No se puede instanciar directamente (lanza TypeError)
+
+#### Clase TestMonthlyReportStrategy
+
+##### 1. `test_monthly_report_strategy_instantiation`
+- **Propósito**: Probar la instanciación correcta de MonthlyReportStrategy
+- **Verificaciones**:
+  - Es instancia de MonthlyReportStrategy
+  - Es instancia de ReportStrategy (herencia)
+
+##### 2. `test_generate_with_data`
+- **Propósito**: Probar la generación de reportes con datos válidos
+- **Mock**: pandas.read_sql con datos de prueba
+- **Datos de prueba**: 2 registros con fechas, totales de pagos y montos
+- **Verificaciones**:
+  - Retorna DataFrame válido
+  - Contiene 2 registros
+  - Tiene las columnas correctas ('mes', 'total_pagos', 'total_monto')
+  - Las fechas se formatean correctamente (YYYY-MM)
+  - Se ejecuta la query SQL correcta
+
+##### 3. `test_generate_with_empty_data`
+- **Propósito**: Probar el manejo de datos vacíos
+- **Mock**: pandas.read_sql con DataFrame vacío
+- **Verificaciones**:
+  - Retorna DataFrame vacío pero con estructura correcta
+  - Mantiene las columnas esperadas
+
+##### 4. `test_generate_with_database_error`
+- **Propósito**: Probar el manejo de errores de conexión a base de datos
+- **Mock**: pandas.read_sql lanza excepción de conexión
+- **Verificaciones**:
+  - Retorna DataFrame vacío con estructura correcta
+  - No propaga la excepción
+
+##### 5. `test_generate_with_sql_error`
+- **Propósito**: Probar el manejo de errores de sintaxis SQL
+- **Mock**: pandas.read_sql lanza excepción de SQL
+- **Verificaciones**:
+  - Retorna DataFrame vacío con estructura correcta
+  - No propaga la excepción
+
+##### 6. `test_generate_query_structure`
+- **Propósito**: Verificar la estructura de la query SQL
+- **Verificaciones**:
+  - El método generate existe y es callable
+  - La query contiene elementos SQL correctos:
+    - SELECT DATE_TRUNC
+    - FROM payments
+    - GROUP BY mes
+    - ORDER BY mes
+
+## Ejecución de Pruebas
+
+### Comando para ejecutar todas las pruebas:
+```bash
+cd reportes_py
+python -m unittest discover -s tests -v
+```
+
+### Comando para ejecutar pruebas específicas:
+```bash
+# Solo PDFBuilder
+python -m unittest tests.test_pdf_builder -v
+
+# Solo ReportStrategy
+python -m unittest tests.test_report_strategy -v
+```
+
+### Comando usando el script de ejecución:
+```bash
+cd reportes_py
+python run_tests.py
+```
+
+## Cobertura de Pruebas
+
+### PDFBuilder
+- ✅ Inicialización
+- ✅ Adición de encabezados
+- ✅ Adición de tablas (con datos, vacías, inválidas)
+- ✅ Adición de pie de página
+- ✅ Construcción completa del PDF
+- ✅ Manejo de saltos de página
+
+### ReportStrategy
+- ✅ Verificación de clase abstracta
+- ✅ Instanciación de implementación concreta
+- ✅ Generación con datos válidos
+- ✅ Manejo de datos vacíos
+- ✅ Manejo de errores de base de datos
+- ✅ Manejo de errores de SQL
+- ✅ Verificación de estructura de query
+
+## Tecnologías Utilizadas
+
+- **unittest**: Framework de pruebas de Python
+- **pandas**: Manipulación de datos
+- **unittest.mock**: Simulación de dependencias
+- **reportlab**: Generación de PDFs (simulada en pruebas)
+
+## Notas Importantes
+
+1. Las pruebas utilizan mocks para simular dependencias externas como pandas.read_sql
+2. Se prueban tanto casos exitosos como de error para garantizar robustez
+3. Las pruebas verifican tanto la funcionalidad como la estructura de datos
+4. Se incluyen pruebas de manejo de errores para garantizar estabilidad
