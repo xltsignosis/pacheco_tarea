@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node src/index.js",
     "test": "jest",
-    "lint": "eslint src/**/*.js",
+    "lint": "eslint . --ext .js,.jsx",
     "format": "prettier --write src/**/*.js",
     "docs": "jsdoc -c jsdoc.json"
   },
